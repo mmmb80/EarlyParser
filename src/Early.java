@@ -21,6 +21,10 @@ public class Early {
         toAdd.add(current);
 
 
+        boolean done = false;
+
+        ChartRow last = null;
+
 
 
 
@@ -29,7 +33,7 @@ public class Early {
 
             if (toAdd.isEmpty())
             {
-                System.out.println("parse failed");
+                System.out.println( ((done)?last.count:0) + " parses.");
                 break;
             }
 
@@ -39,7 +43,11 @@ public class Early {
             {
                 for (ChartRow row : chart)
                 {
-                    if (row.equals(current)) row.count+= current.count;
+                    if (row.equals(current) && row.start!=row.end)
+                    {
+
+                        row.count+= current.count;
+                    }
                 }
                 continue;
             }
@@ -51,8 +59,9 @@ public class Early {
 
             if (current.start ==0 && current.end == input.size() && current.dot == current.rule.rhs.size() && current.rule.equals(chart.get(0).rule))
             {
-                System.out.println(current.count +" parses");
-                break;
+                done = true;
+                last = current;
+
             }
 
 
